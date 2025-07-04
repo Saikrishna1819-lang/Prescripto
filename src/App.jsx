@@ -1,36 +1,43 @@
-import React from 'react'
-import { Route, Routes } from 'react-router-dom'
-import Home from './pages/Home'
-import About from './pages/About'
-import Doctors from './pages/Doctors'
+import React, { useContext } from 'react'
 import Login from './pages/Login'
-import Contact from './pages/Contact'
-import MyProfile from './pages/MyProfile'
-import MyAppointments from './pages/MyAppointments'
-import Appointment from './pages/Appointment'
-import NavBar from './components/NavBar'
-import Footer from './components/Footer'
+import { ToastContainer, toast } from 'react-toastify';
+import { AdminContext } from './context/AdminContext';
+import Navbar from './components/Navbar';
+import Sidebar from './components/Sidebar';
+import { Route, Routes } from 'react-router-dom';
+import Dashboard from './pages/Admin/Dashboard';
+import AllApointment from './pages/Admin/AllApointment';
+import AddDoctor from './pages/Admin/AddDoctor';
+import DoctorsList from './pages/Admin/DoctorsList';
 
 const App = () => {
-  return (
-    <div className='mx-4 sm:mx-[10%]'>
-      <NavBar/>
-      <Routes>
-        <Route path="/" element={<Home/>}></Route>
-        <Route path="/about" element={<About/>}></Route>
-        <Route path="/doctors" element={<Doctors/>}></Route>
-        <Route path="/doctors/:speciality" element={<Doctors/>}></Route>
-        <Route path="/login" element={<Login/>}></Route>
-        <Route path="/contact" element={<Contact/>}></Route>
-        <Route path="/my-profile" element={<MyProfile/>}></Route>
-        <Route path="/my-appointments" element={<MyAppointments/>}></Route>
-        <Route path="/appointment/:docId" element={<Appointment/>}></Route>
+  const { aToken } = useContext(AdminContext)
+  return aToken ? (
+    <div className='bg-[#F8F9FD]'>
 
-      </Routes>
-      <Footer/>
+      <ToastContainer />
+      <Navbar />
+      <div className='flex items-start'>
+        <Sidebar />
+        <Routes>
+          <Route path="/" element={<></>}></Route>
+          <Route path="/admin-dashboard" element={<Dashboard/>}></Route>
+          <Route path="/all-appointments" element={<AllApointment/>}></Route>
+          <Route path="/add-doctor" element={<AddDoctor/>}></Route>
+          <Route path="/doctor-list" element={<DoctorsList/>}></Route>
+
+
+        </Routes>
+      </div>
     </div>
-    
-  )
-} 
+  ) :
+    (
+      <>
+        <Login />
+        <ToastContainer />
+      </>
+
+    )
+}
 
 export default App
