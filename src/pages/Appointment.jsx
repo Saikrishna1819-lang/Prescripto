@@ -50,6 +50,7 @@ const Appointment = () => {
   }
 
   const getAvailableSlots=async()=>{
+    if(!docInfo) return null
     
     let today=new Date();
     const allSlots=[];
